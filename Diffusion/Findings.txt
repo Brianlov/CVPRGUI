@@ -1,0 +1,45 @@
+PROJECT CHECKPOINT: CVPR Assignment (BERR 4743) - Advanced Stage
+
+Hardware & Environment: > * Windows OS, executing via PowerShell.
+
+GPU: RTX 5080 (Blackwell Architecture). CPU: AMD Ryzen 7 9800X3D.
+
+Environment: cvpr_env sandbox (PyTorch 2.11.0, cu130).
+
+I/O Setup: Dataset paths are routed to a secondary NVMe drive (D:\MedMNIST_Data) to prevent OS bottlenecks during massive I/O loads.
+
+Track A: Baseline Classification (COMPLETE)
+
+Task: Binary classification of PneumoniaMNIST.
+
+Architecture: ResNet50.
+
+Metrics: 98% Overall Accuracy. Sensitivity: 99.74%. Specificity: 93.33%.
+
+Identified Issue: Class imbalance led to a higher rate of False Positives (10) vs False Negatives (1).
+
+Track B: GAN Synthetic Generation (COMPLETE)
+
+Goal: Build a GAN to synthesize 224x224 "Normal (0)" lungs.
+
+Architecture: ConvTranspose2d Generator, Conv2d Discriminator.
+
+Tuning: Upgraded with Label Smoothing, Spectral Normalization, and scaled compute (300 epochs, Batch 128).
+
+Result: Stable equilibrium achieved (D_loss=0.518, G_loss=0.827). High-quality anatomical generation visually confirmed.
+
+Track C: The Hybrid Integration & TSTR (COMPLETE)
+
+Goal: Train Synthetic, Test Real (TSTR).
+
+Execution: Harvested 2,600 GAN images, dynamically fused them with the real dataset using a custom ConcatDataset loader, and retrained ResNet50 from scratch.
+
+Final Metric: Hybrid Specificity jumped to 94.81% (False Positives dropped from 10 to 7). The pipeline successfully proved synthetic data can reduce clinical bias. All required graphs and matrices are saved.
+
+Track D: Diffusion Model Showdown (CURRENT STAGE)
+
+Goal: Build a thermodynamic Diffusion model (U-Net) to challenge the GAN's generation quality.
+
+Current Status: Diffusion_Architecture.py and Sample_Diffusion.py are written. Train_Diffusion.py is currently running its 100-epoch training loop on the RTX 5080.
+
+Next Step: Once training finishes, run the inference script to generate images, then execute a final "GAN vs. Diffusion" Hybrid ResNet50 showdown to see if Diffusion pushes Specificity even higher than 95%.
