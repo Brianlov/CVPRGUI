@@ -40,7 +40,7 @@ def main():
     model.fc = nn.Linear(num_ftrs, 2) 
     
     #Put Model Path here
-    weights_path = os.path.join(dataset_root, 'hybrid_maskgit_resnet50.pth')
+    weights_path = r"C:\Users\Brian ooi\Documents\code\CVPR\CVPRAssignment\baseline_resnet50.pth"
     model.load_state_dict(torch.load(weights_path, map_location=device, weights_only=True))
     model = model.to(device)
     model.eval() 
@@ -92,7 +92,7 @@ def main():
     ax.set_ylim([0.0, 1.05])
     ax.set_xlabel('False Positive Rate (1 - Specificity)', fontweight='bold')
     ax.set_ylabel('True Positive Rate (Sensitivity)', fontweight='bold')
-    ax.set_title('Receiver Operating Characteristic (ROC) - Hybrid MaskGIT ResNet50', fontweight='bold')
+    ax.set_title('Receiver Operating Characteristic (ROC) - Baseline ResNet50 (No Augmentation)', fontweight='bold')
     ax.legend(loc="lower right")
     
     # Save the ROC curve to your NVMe
@@ -102,8 +102,8 @@ def main():
     print("Generating Confusion Matrix Window...")
     disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=["Normal (0)", "Pneumonia (1)"])
     disp.plot(cmap=plt.cm.Blues)
-    plt.title('Hybrid MaskGIT ResNet50 (GAN Augmented) - PneumoniaMNIST', fontweight='bold')
-    plt.savefig(os.path.join(dataset_root, 'hybrid_maskgit_resnet50_confusion_matrix.png'), dpi=300)
+    plt.title('Baseline ResNet50 (No Augmentation) - PneumoniaMNIST', fontweight='bold')
+    plt.savefig(os.path.join(dataset_root, 'baseline_confusion_matrix.png'), dpi=300)
     plt.show()
 
 if __name__ == '__main__':

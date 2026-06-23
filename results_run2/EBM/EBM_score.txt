@@ -1,0 +1,21 @@
+==================================================
+CLASSIFICATION REPORT: EBM-AUGMENTED MODEL
+==================================================
+
+               precision    recall  f1-score   support
+
+   Normal (0)       0.99      0.96      0.98       135
+Pneumonia (1)       0.99      1.00      0.99       389
+
+     accuracy                           0.99       524
+    macro avg       0.99      0.98      0.98       524
+ weighted avg       0.99      0.99      0.99       524
+
+==================================================
+CLINICAL METRICS
+==================================================
+Accuracy    : 0.9885 (98.85%)
+Sensitivity : 0.9974 (99.74%)
+Specificity : 0.9630 (96.30%)
+AUC         : 0.9993
+TN=130  FP=5  FN=1  TP=388

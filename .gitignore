@@ -1,0 +1,9 @@
+venv/
+node_modules/
+__pycache__/
+*.pth
+*.npz
+*.pt
+.env
+.DS_Store
+gui/frontend/dist/

@@ -1,0 +1,21 @@
+==================================================
+CLASSIFICATION REPORT: GAN-AUGMENTED MODEL
+==================================================
+
+               precision    recall  f1-score   support
+
+   Normal (0)       0.99      0.95      0.97       135
+Pneumonia (1)       0.98      1.00      0.99       389
+
+     accuracy                           0.98       524
+    macro avg       0.99      0.97      0.98       524
+ weighted avg       0.98      0.98      0.98       524
+
+==================================================
+CLINICAL METRICS
+==================================================
+Accuracy    : 0.9847 (98.47%)
+Sensitivity : 0.9974 (99.74%)
+Specificity : 0.9481 (94.81%)
+AUC         : 0.9979
+TN=128  FP=7  FN=1  TP=388

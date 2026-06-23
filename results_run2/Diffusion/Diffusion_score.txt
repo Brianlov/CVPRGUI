@@ -1,0 +1,21 @@
+==================================================
+CLASSIFICATION REPORT: DIFFUSION-AUGMENTED MODEL
+==================================================
+
+               precision    recall  f1-score   support
+
+   Normal (0)       0.98      0.95      0.97       135
+Pneumonia (1)       0.98      0.99      0.99       389
+
+     accuracy                           0.98       524
+    macro avg       0.98      0.97      0.98       524
+ weighted avg       0.98      0.98      0.98       524
+
+==================================================
+CLINICAL METRICS
+==================================================
+Accuracy    : 0.9828 (98.28%)
+Sensitivity : 0.9949 (99.49%)
+Specificity : 0.9481 (94.81%)
+AUC         : 0.9994
+TN=128  FP=7  FN=2  TP=387

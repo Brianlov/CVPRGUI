@@ -1,0 +1,21 @@
+==================================================
+CLASSIFICATION REPORT: DIT-AUGMENTED MODEL
+==================================================
+
+               precision    recall  f1-score   support
+
+   Normal (0)       0.99      0.91      0.95       135
+Pneumonia (1)       0.97      1.00      0.98       389
+
+     accuracy                           0.98       524
+    macro avg       0.98      0.95      0.97       524
+ weighted avg       0.98      0.98      0.97       524
+
+==================================================
+CLINICAL METRICS
+==================================================
+Accuracy    : 0.9752 (97.52%)
+Sensitivity : 0.9974 (99.74%)
+Specificity : 0.9111 (91.11%)
+AUC         : 0.9977
+TN=123  FP=12  FN=1  TP=388

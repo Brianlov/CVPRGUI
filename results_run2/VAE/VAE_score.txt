@@ -1,0 +1,21 @@
+==================================================
+CLASSIFICATION REPORT: VAE-AUGMENTED MODEL
+==================================================
+
+               precision    recall  f1-score   support
+
+   Normal (0)       0.96      0.98      0.97       135
+Pneumonia (1)       0.99      0.98      0.99       389
+
+     accuracy                           0.98       524
+    macro avg       0.97      0.98      0.98       524
+ weighted avg       0.98      0.98      0.98       524
+
+==================================================
+CLINICAL METRICS
+==================================================
+Accuracy    : 0.9828 (98.28%)
+Sensitivity : 0.9846 (98.46%)
+Specificity : 0.9778 (97.78%)
+AUC         : 0.9986
+TN=132  FP=3  FN=6  TP=383
