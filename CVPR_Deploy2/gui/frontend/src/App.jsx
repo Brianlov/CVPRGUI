@@ -1,13 +1,13 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import './App.css'
 
-const API = 'https://brianlov-guibackend.hf.space'
+const API = 'http://localhost:8000'
 
 const MODELS = ['Baseline', 'GAN', 'EBM']
 
 const MODEL_META = {
-  GAN: { color: '#4f8ef7', desc: 'ConvTranspose2d Generator + Spectral Norm Discriminator' },
-  EBM: { color: '#a855f7', desc: 'Energy-Based Model via Langevin Dynamics (MCMC sampling)' },
+  GAN:      { color: '#4f8ef7', desc: 'ConvTranspose2d Generator + Spectral Norm Discriminator' },
+  EBM:      { color: '#a855f7', desc: 'Energy-Based Model via Langevin Dynamics (MCMC sampling)' },
 }
 
 // ── Upload Zone ───────────────────────────────────────────────────────────────
@@ -137,14 +137,14 @@ function Dashboard({ navigate }) {
           <p className="empty">Failed to load metrics. Check backend.</p>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-
+            
             {/* Dataset Samples Section */}
             {samples && (
               <section className="card">
                 <div className="card-header">
                   <h2>PneumoniaMNIST Dataset Samples</h2>
                 </div>
-                <p className="card-desc">28*28 pixels binary images samples in MedMnist </p>
+                <p className="card-desc">Real examples from the test set used to evaluate the models.</p>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', padding: '16px 0' }}>
                   <div className="model-col">
                     <div className="model-col-header" style={{ borderColor: '#10b981' }}>
@@ -189,26 +189,26 @@ function Dashboard({ navigate }) {
               <h2 style={{ fontSize: '18px', marginBottom: '16px' }}>Model Metrics</h2>
               <div className="metrics-grid">
                 {['Baseline', 'GAN', 'EBM'].map(model => (
-                  <section key={model} className="card">
-                    <div className="card-header">
-                      <h2 style={{ color: MODEL_META[model]?.color || 'var(--text)' }}>{model} Metrics</h2>
-                    </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', padding: '16px' }}>
-                      <div>
-                        <h3 style={{ fontSize: '12px', textTransform: 'uppercase', color: 'var(--muted)', marginBottom: '8px', textAlign: 'center' }}>Confusion Matrix</h3>
-                        {metrics[model]?.cm ? (
-                          <img src={`data:image/png;base64,${metrics[model].cm}`} alt={`${model} CM`} style={{ width: '100%', borderRadius: '8px', border: '1px solid var(--border)' }} />
-                        ) : <div className="img-placeholder" />}
-                      </div>
-                      <div>
-                        <h3 style={{ fontSize: '12px', textTransform: 'uppercase', color: 'var(--muted)', marginBottom: '8px', textAlign: 'center' }}>ROC Curve</h3>
-                        {metrics[model]?.roc ? (
-                          <img src={`data:image/png;base64,${metrics[model].roc}`} alt={`${model} ROC`} style={{ width: '100%', borderRadius: '8px', border: '1px solid var(--border)' }} />
-                        ) : <div className="img-placeholder" />}
-                      </div>
-                    </div>
-                  </section>
-                ))}
+              <section key={model} className="card">
+                <div className="card-header">
+                  <h2 style={{ color: MODEL_META[model]?.color || 'var(--text)' }}>{model} Metrics</h2>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', padding: '16px' }}>
+                  <div>
+                    <h3 style={{ fontSize: '12px', textTransform: 'uppercase', color: 'var(--muted)', marginBottom: '8px', textAlign: 'center' }}>Confusion Matrix</h3>
+                    {metrics[model]?.cm ? (
+                      <img src={`data:image/png;base64,${metrics[model].cm}`} alt={`${model} CM`} style={{ width: '100%', borderRadius: '8px', border: '1px solid var(--border)' }} />
+                    ) : <div className="img-placeholder" />}
+                  </div>
+                  <div>
+                    <h3 style={{ fontSize: '12px', textTransform: 'uppercase', color: 'var(--muted)', marginBottom: '8px', textAlign: 'center' }}>ROC Curve</h3>
+                    {metrics[model]?.roc ? (
+                      <img src={`data:image/png;base64,${metrics[model].roc}`} alt={`${model} ROC`} style={{ width: '100%', borderRadius: '8px', border: '1px solid var(--border)' }} />
+                    ) : <div className="img-placeholder" />}
+                  </div>
+                </div>
+              </section>
+            ))}
               </div>
             </section>
           </div>
@@ -221,12 +221,12 @@ function Dashboard({ navigate }) {
 // ── Main App ──────────────────────────────────────────────────────────────────
 export default function App() {
   const [currentRoute, setCurrentRoute] = useState(window.location.pathname)
-  const [file, setFile] = useState(null)
-  const [preview, setPreview] = useState('')
+  const [file, setFile]         = useState(null)
+  const [preview, setPreview]   = useState('')
   const [augments, setAugments] = useState([])
-  const [genData, setGenData] = useState({})
-  const [result, setResult] = useState(null)
-  const [model, setModel] = useState('Baseline')
+  const [genData, setGenData]   = useState({})
+  const [result, setResult]     = useState(null)
+  const [model, setModel]       = useState('Baseline')
 
   const [loadingAug, setLoadingAug] = useState(false)
   const [loadingGen, setLoadingGen] = useState(false)
@@ -403,8 +403,8 @@ export default function App() {
               <tbody>
                 {[
                   { name: 'Baseline', acc: 97.90, sens: 99.74, spec: 92.59, auc: 0.9983, fp: 10, fn: 1 },
-                  { name: 'GAN', acc: 98.47, sens: 99.74, spec: 94.81, auc: 0.9979, fp: 7, fn: 1 },
-                  { name: 'EBM', acc: 98.85, sens: 99.74, spec: 96.30, auc: 0.9993, fp: 5, fn: 1, best: true },
+                  { name: 'GAN',      acc: 98.47, sens: 99.74, spec: 94.81, auc: 0.9979, fp: 7,  fn: 1 },
+                  { name: 'EBM',      acc: 98.85, sens: 99.74, spec: 96.30, auc: 0.9993, fp: 5,  fn: 1, best: true },
                 ].map(r => (
                   <tr key={r.name} className={r.best ? 'row-best' : ''}>
                     <td>
