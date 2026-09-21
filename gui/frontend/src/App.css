@@ -32,7 +32,6 @@ body {
   overflow: hidden;
   padding: 64px 24px 56px;
   text-align: center;
-  border-bottom: 1px solid var(--border);
 }
 .hero-glow {
   position: absolute; inset: 0;
@@ -70,9 +69,6 @@ body {
 
 /* ── Card ──────────────────────────────────────────────────────── */
 .card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
   padding: 28px;
   transition: border-color .2s;
 }
@@ -284,4 +280,84 @@ body {
   .gen-grid { grid-template-columns: 1fr; }
   .gen-divider { display: none }
   .clf-controls { flex-direction: column; align-items: stretch }
+}
+.sample-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+.sample-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  cursor: grab;
+}
+.cloud-tooltip {
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  background: white;
+  color: black;
+  padding: 10px 14px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: bold;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+/* Cloud bumps */
+.cloud-tooltip::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 20%;
+  width: 24px;
+  height: 24px;
+  background: white;
+  border-radius: 50%;
+  z-index: -1;
+}
+.cloud-tooltip::after {
+  content: '';
+  position: absolute;
+  top: -12px;
+  right: 20%;
+  width: 30px;
+  height: 30px;
+  background: white;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+/* Cloud thought tail dots */
+.sample-wrapper::after {
+  content: '';
+  position: absolute;
+  bottom: 95%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0;
+  transform: translateX(-50%) scale(0);
+  transition: all 0.3s ease-out;
+  pointer-events: none;
+  box-shadow: -4px -10px 0 -2px white;
+}
+
+.sample-wrapper:hover .cloud-tooltip {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+}
+.sample-wrapper:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
 }

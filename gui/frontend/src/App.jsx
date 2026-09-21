@@ -1,5 +1,8 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import './App.css'
+import Folder from './Folder'
+import DotGrid from './DotGrid'
+import BorderGlow from './BorderGlow'
 
 const API = 'https://brianlov-guibackend.hf.space'
 
@@ -25,7 +28,24 @@ function UploadZone({ onUpload, preview }) {
       className={`upload-zone ${dragging ? 'dragging' : ''} ${preview ? 'has-preview' : ''}`}
       onDragOver={e => { e.preventDefault(); setDragging(true) }}
       onDragLeave={() => setDragging(false)}
-      onDrop={e => { e.preventDefault(); setDragging(false); handle(e.dataTransfer.files[0]) }}
+      onDrop={async e => {
+        e.preventDefault();
+        setDragging(false);
+        const file = e.dataTransfer.files[0];
+        if (file) {
+          handle(file);
+        } else {
+          let url = e.dataTransfer.getData('URL') || e.dataTransfer.getData('text/plain');
+          if (url) {
+            try {
+              const res = await fetch(url);
+              const blob = await res.blob();
+              const f = new File([blob], url.split('/').pop() || 'sample.jpg', { type: blob.type });
+              handle(f);
+            } catch (err) { console.error('Failed to fetch dropped image', err); }
+          }
+        }
+      }}
       onClick={() => inputRef.current.click()}
     >
       <input ref={inputRef} type="file" accept="image/*" hidden
@@ -120,7 +140,15 @@ function Dashboard({ navigate }) {
 
   return (
     <div className="app">
-      <header className="hero">
+      <BorderGlow 
+        className="hero" 
+        backgroundColor="#060b17" 
+        glowColor="220 80 60" 
+        edgeSensitivity={50}
+        animated={true}
+        borderRadius={24}
+        style={{ margin: '24px 24px 0 24px' }}
+      >
         <div className="hero-content">
           <a href="/" onClick={(e) => navigate('/', e)} className="nav-link" style={{ marginBottom: '16px', display: 'inline-block' }}>
             &larr; Back to Generator
@@ -128,7 +156,7 @@ function Dashboard({ navigate }) {
           <h1>Model Evaluation <span className="gradient-text">Metrics</span></h1>
           <p className="hero-sub">Confusion Matrices and ROC Curves for Baseline, GAN, and EBM</p>
         </div>
-      </header>
+      </BorderGlow>
 
       <main className="main">
         {loading ? (
@@ -281,8 +309,15 @@ export default function App() {
 
   return (
     <div className="app">
-      <header className="hero">
-        <div className="hero-glow" />
+      <BorderGlow 
+        className="hero" 
+        backgroundColor="#060b17" 
+        glowColor="220 80 60" 
+        edgeSensitivity={50}
+        animated={true}
+        borderRadius={24}
+        style={{ margin: '24px 24px 0 24px' }}
+      >
         <div className="hero-content">
           <div className="hero-badge">CVPR 2026 &mdash; BERR 4743</div>
           <h1>Generative Medical Imaging<br /><span className="gradient-text">Augmentation Dashboard</span></h1>
@@ -295,30 +330,53 @@ export default function App() {
             </a>
           </div>
         </div>
-      </header>
+      </BorderGlow>
 
       <main className="main">
 
-        <section className="card">
+        <BorderGlow className="card" backgroundColor="#0d1526" animated={false}>
           <div className="card-header">
             <h2>Upload Chest X-ray</h2>
             <span className="badge">Step 1</span>
           </div>
           <UploadZone onUpload={handleUpload} preview={preview} />
-        </section>
+
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '24px', marginTop: '24px', borderTop: '1px solid var(--border)' }}>
+            <div>
+              <h2 style={{ marginBottom: '8px', fontSize: '18px' }}>Try to Test!</h2>
+              <p className="card-desc" style={{ margin: 0 }}>No X-ray? Click the folder to open it, then drag an image into the drop zone.</p>
+            </div>
+            <div style={{ height: '120px', width: '160px', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '40px' }}>
+              <Folder
+                size={1.2}
+                color="#4785ff"
+                items={[
+                  <div key="1" className="sample-wrapper" title="Drag me! I am a pneumonia lung!!">
+                    <img src="/sample-1.jpg" draggable="true" alt="Pneumonia Sample" />
+                    <div className="cloud-tooltip">Drag me! I am a pneumonia lung!!</div>
+                  </div>,
+                  <div key="2" className="sample-wrapper" title="Drag me! I am a normal lung!!">
+                    <img src="/sample-2.jpg" draggable="true" alt="Normal Sample" />
+                    <div className="cloud-tooltip">Drag me! I am a normal lung!!</div>
+                  </div>
+                ]}
+              />
+            </div>
+          </div>
+        </BorderGlow>
 
         {/* Traditional Augmentations */}
-        <section className="card">
+        <BorderGlow className="card" backgroundColor="#0d1526" animated={false}>
           <div className="card-header">
             <h2>Traditional Augmentations</h2>
             <span className="badge">Row 1</span>
           </div>
           <p className="card-desc">Standard image transforms applied to the uploaded X-ray — flips, rotations, brightness, blur, and cropping.</p>
           <AugGrid items={augments} loading={loadingAug} />
-        </section>
+        </BorderGlow>
 
         {/* Generative Samples — GAN & EBM */}
-        <section className="card">
+        <BorderGlow className="card" backgroundColor="#0d1526" animated={false}>
           <div className="card-header">
             <h2>Generative Model Samples</h2>
             <span className="badge gen-badge">Row 2 — GAN & EBM</span>
@@ -344,10 +402,10 @@ export default function App() {
               <ModelColumn name="EBM" images={genData.ebm || []} />
             </div>
           )}
-        </section>
+        </BorderGlow>
 
         {/* Classification */}
-        <section className="card">
+        <BorderGlow className="card" backgroundColor="#0d1526" animated={false}>
           <div className="card-header">
             <h2>Classification</h2>
             <span className="badge">Step 2 — Run Inference</span>
@@ -385,10 +443,10 @@ export default function App() {
               </div>
             </div>
           )}
-        </section>
+        </BorderGlow>
 
         {/* Results Summary Table */}
-        <section className="card">
+        <BorderGlow className="card" backgroundColor="#0d1526" animated={false}>
           <div className="card-header">
             <h2>Model Performance Summary</h2>
             <span className="badge">PneumoniaMNIST Test Set</span>
@@ -427,7 +485,7 @@ export default function App() {
               </tbody>
             </table>
           </div>
-        </section>
+        </BorderGlow>
 
       </main>
 
