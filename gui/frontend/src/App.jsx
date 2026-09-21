@@ -1,7 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import './App.css'
 import Folder from './Folder'
-import DotGrid from './DotGrid'
 import BorderGlow from './BorderGlow'
 
 const API = 'https://brianlov-guibackend.hf.space'
